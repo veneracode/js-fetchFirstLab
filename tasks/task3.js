@@ -6,7 +6,32 @@
 
 
 function updateUser(id, updatedData) {
-  // Ваш код
+  const fetch = require('node-fetch');
+
+  async function updateUser(id, updatedData) {
+    try {
+      const url = 'https://jsonplaceholder.typicode.com/users/' + id; // Формування URL
+      const options = {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedData), // Конвертація об'єкта в JSON-рядок
+      };
+  
+      const response = await fetch(url, options); // Виконання запиту
+      const data = await response.json(); // Отримання даних з відповіді
+      return data;
+    } catch (error) {
+      console.error('Error updating user:', error);
+    }
+  }
+  
+  updateUser(1, { name: 'New Name' })
+    .then((data) => console.log(data));
+  
+  module.exports = updateUser;
+  
 }
 
 console.log(updateUser(1, { name: 'New Name' }));
